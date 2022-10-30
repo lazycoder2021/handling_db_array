@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        thead{
+            font-weight:900;
+        }
+
+        td{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h2>get payments page</h2>
+    <h3 class="username"></h3>
+    <table>
+        <thead>
+            <tr>
+                <td>order id</td>
+                <td>order amount</td>
+                <td>order status</td>
+                <td>order created at</td>
+            </tr>
+        </thead>
+        <tbody class="tableBody">
+            
+        </tbody>
+    </table>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            fetch('https://handling-db-array.herokuapp.com/getuserpayments')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    console.log(data.users[0].username)
+                    console.log(data.users[0].order_details)
+                    document.querySelector('.username').innerHTML = data.users[0].username; 
+                    const orders = data.users[0].order_details; 
+                    //console.log(orders)
+                    orders.forEach((order) => {
+                        console.log(order)
+                        document.querySelector('.tableBody').innerHTML += `
+                            <tr>
+                                <td>${order._id}</td>
+                                <td>${order.amount}</td>
+                                <td>${order.status}</td>
+                                <td>${order.created_at}</td>
+                            </tr>
+
+                        `; 
+                    })
+
+
+
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+        })
+    </script>
+</body>
+</html>

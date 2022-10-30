@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .results{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h3>Serving Index Page</h3>
+    <div class="results">
+
+    </div>
+
+    <div class="subresults"></div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            //alert('hi..')
+            fetch('http://localhost:3000/get')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    var items = data.data.item;
+                    console.log(items)
+                    //console.log(data.data.username)
+                    console.log(data.data._id)
+                    document.querySelector('.results').innerHTML += `
+                            <p>${data.data._id}</p>
+                            <p>${data.data.username}</p>
+                        `;
+
+                    items.forEach((item) => {
+                        console.log(item)
+                        document.querySelector('.subresults').innerHTML += `
+                                 <p>${item.itemName}</p>
+                                 <p>${item.itemDesc}</p>
+                                 <p>${item.itemPrice}</p>
+                                 <p>${item.itemQuantity}</p>
+                            `;
+
+                    })
+
+
+
+                    /* should check how to loop through array within a record */
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+        })
+    </script>
+</body>
+</html>

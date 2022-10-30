@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        form{
+            border:1px solid black;
+            width:300px;
+            margin:200px auto 20px;
+            display:flex;
+            flex-direction:column; 
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="number" class="amount" placeholder="Enter payment amount"/>
+        <button>Make Payment</button>
+    </form>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert(document.querySelector('.amount').value)
+            fetch('https://handling-db-array.herokuapp.com/makepayment', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: Number(document.querySelector('.amount').value)
+                })
+
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+            }).catch((e) => {
+                console.log(e)
+            })
+
+        })
+
+
+        /*==============================
+            fetch('http://localhost:5000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: document.querySelector('.email').value,
+                    password: document.querySelector('.password').value
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                console.log(data)
+            }).catch((e) => {
+                console.log(e)
+            })
+        })
+
+*/
+    </script>
+</body>
+</html>
